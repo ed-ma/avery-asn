@@ -7,12 +7,12 @@ from reportlab_qrcode import QRCodeImage
 from reportlab.pdfgen import canvas
 
 ### config ###
-labelForm = 4778
+labelForm = 4731
 
 # mode "qr" prints a QR code and an ASN (archive serial number) text
 mode = "qr"
-subLabelsX = 2
-subLabelsY = 2
+subLabelsX = 1 
+subLabelsY = 1
 
 # mode text prints a free text
 #mode = "text"
@@ -21,17 +21,18 @@ subLabelsY = 2
 #subLabelsY = 3
 
 # what was the first ASN number printed on this sheet
-firstASNOnSheet = 42
+firstASNOnSheet = 1
 # how many labels have already been printed on this sheet successfully
-labelsAlreadyPrinted = 20
+labelsAlreadyPrinted = 0
 # how many labels have been corrupted on this sheet because of misprints
-labelsCorrupted = 4
+labelsCorrupted = 0
 # how many labels should be printed now
-labelsToPrint = 18
+labelsToPrint = 189
 
-fontSize = 2*mm
-qrSize = 0.9
-qrMargin = 1*mm
+fontSize = 2.6*mm
+txtMargin = 0
+qrSize = 1.16
+qrMargin = 0.1*mm
 
 debug = False
 positionHelper = True
@@ -71,7 +72,7 @@ def render(c: canvas.Canvas, width: float, height: float):
                 qr = QRCodeImage(barcode_value, size=subLabelHeight*qrSize)
                 qr.drawOn(c, x=qrMargin, y=subLabelHeight*((1-qrSize)/2))
                 c.setFont("Helvetica", size=fontSize)
-                c.drawString(x=subLabelHeight, y=(
+                c.drawString(x= subLabelHeight*qrSize + txtMargin + qrMargin, y=(
                     subLabelHeight-fontSize)/2, text=barcode_value)
 
             elif mode == "text":
